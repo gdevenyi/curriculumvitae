@@ -1,0 +1,356 @@
+%!TeX spellcheck = en-CA
+%Development of this version is against 2016.20170123-5~14.04.york0
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[margin1,line,canadian]{resume}
+\usepackage[hyphens]{url}
+\usepackage[colorlinks,hypertexnames=false,breaklinks]{hyperref}
+\usepackage[canadian]{babel}
+\usepackage[activate=true,tracking=true,kerning=true,expansion=true,spacing=true]{microtype}
+\microtypecontext{spacing=nonfrench}
+\usepackage{booktabs} %makes tables look better
+\usepackage[T1]{fontenc} %upgrades font encodings
+\usepackage[utf8]{inputenc}%Tells latex the file is saved as UTF-8 (make sure it is!)
+\usepackage{lmodern} %improved version of computer modern font
+%\usepackage{fixltx2e}
+%\usepackage{ragged2e}
+\usepackage{slantsc}
+\usepackage{upgreek} %Provides upright (non italic) greek fonts
+\usepackage{gensymb} %Provides  \de­gree, \cel­sius, \pert­hou­sand, \mi­cro and \ohm amongst others
+\usepackage{textcomp} %Supports lmodern
+\usepackage{textgreek} %Provides \textbeta and similar greek letters in text mode
+\usepackage{ellipsis}%Fix \ldots and similar commands, bugs with spacing and such
+%\usepackage{showframe}
+\usepackage[letterpaper,top=0.4in,bottom=0.4in,left=0.4in,right=1.5in, nohead,nomarginpar,includefoot]{geometry}
+\usepackage{pageslts}
+\usepackage{fancyhdr}
+\usepackage{datetime}
+\usepackage{tikz}
+\usetikzlibrary{backgrounds,calc}
+\usepackage{csquotes}
+\usepackage{fontawesome}
+\usepackage[backend=biber,style=verbose,backref=true,maxnames=99,alldates=edtf,seconds=true,bibencoding=utf8,dashed=false,giveninits=true]{biblatex}
+\usepackage{etoolbox}
+\pagenumbering{arabic}
+
+\newcounter{namesnotimportant}
+\newtoggle{ellipsis}
+\DeclareNameFormat{given-family-etal}{%
+ \ifnumcomp{\value{listcount}}{=}{1}
+ {\setcounter{namesnotimportant}{0}%
+  \toggletrue{ellipsis}}
+ {}%
+ \ifboolexpr{test {\ifnumcomp{\value{listcount}}{=}{1}}
+  or test {\ifnumcomp{\value{listtotal}}{=}{2}}
+  or test {\ifnumcomp{\value{listcount}}{=}{\value{listtotal}}}}
+ {
+  \ifboolexpr{test {\iffieldequalstr{hash}{249316ee5c16bae1d59a29e01595a327}}
+   or
+   test {\iffieldequalstr{hash}{5ea4c2c1378edea173c67ea8d1c061fc}}
+   or
+   test {\iffieldequalstr{hash}{8e46854701df8afd2ef5d9cc291790b1}}
+   or
+   test {\iffieldequalstr{hash}{bbe6f69e72a9242bc1bd6610fee4d49b}}
+   or
+   test {\iffieldequalstr{hash}{d4fc4ad945020d3ec9c3c8c3c4f53a41}}}
+  {    \ifgiveninits
+   {\mkbibbold{\usebibmacro{name:given-family}
+    {\namepartfamily}
+    {\namepartgiveni}
+    {\namepartprefix}
+    {\namepartsuffix}}}
+   {\mkbibbold{\usebibmacro{name:given-family}
+    {\namepartfamily}
+    {\namepartgiven}
+    {\namepartprefix}
+    {\namepartsuffix}}}}
+  {    \ifgiveninits
+   {\usebibmacro{name:given-family}
+    {\namepartfamily}
+    {\namepartgiveni}
+    {\namepartprefix}
+    {\namepartsuffix}}
+   {\usebibmacro{name:given-family}
+    {\namepartfamily}
+    {\namepartgiven}
+    {\namepartprefix}
+    {\namepartsuffix}}}
+ }%
+ {\ifboolexpr{test {\iffieldequalstr{hash}{249316ee5c16bae1d59a29e01595a327}}
+  or
+  test {\iffieldequalstr{hash}{5ea4c2c1378edea173c67ea8d1c061fc}}
+  or
+  test {\iffieldequalstr{hash}{8e46854701df8afd2ef5d9cc291790b1}}
+  or
+  test {\iffieldequalstr{hash}{bbe6f69e72a9242bc1bd6610fee4d49b}}
+  or
+  test {\iffieldequalstr{hash}{d4fc4ad945020d3ec9c3c8c3c4f53a41}}}%% <----- put the correct hash here
+  {\toggletrue{ellipsis}%
+   \ifgiveninits
+   {\mkbibbold{\usebibmacro{name:given-family}
+    {\namepartfamily}
+    {\namepartgiveni}
+    {\namepartprefix}
+    {\namepartsuffix}}}
+   {\mkbibbold{\usebibmacro{name:given-family}
+    {\namepartfamily}
+    {\namepartgiven}
+    {\namepartprefix}
+    {\namepartsuffix}}}}%
+  {\stepcounter{namesnotimportant}%
+   \iftoggle{ellipsis}
+   {\addcomma\space\textellipsis\togglefalse{ellipsis}\isdot}
+   {}}}%
+ \ifnumcomp{\value{namesnotimportant}}{>}{0}
+ {\toggletrue{abx@bool@more\currentname}}
+ {}%
+ \ifboolexpr{
+  test {\ifnumequal{\value{listcount}}{\value{liststop}}}
+  and
+  test \ifmorenames
+ }
+ {\andothersdelim\bibstring{andothers}}
+ {}}
+
+\DeclareNameAlias{sortname}{given-family-etal}
+\DeclareNameAlias{author}{given-family-etal}
+\DeclareNameAlias{editor}{given-family-etal}
+\DeclareNameAlias{translator}{given-family-etal}
+
+\renewcommand{\dateseparator}{-}
+\newcommand{\todayiso}{\the\year \dateseparator \twodigit\month \dateseparator \twodigit\day}
+
+%Print url or eprint only if no DOI
+\DeclareSourcemap{
+ \maps[datatype=bibtex]{
+  \map[overwrite]{
+   \step[fieldsource=doi, final]
+   \step[fieldset=url, null]
+   \step[fieldset=eprint, null]
+  }
+  \map{
+   \pertype{article}
+   \step[fieldset=issn, null]
+  }
+ }
+}
+
+%Hide ISSN
+%\AtEveryBibitem{\ifentrytype{article}{\clearfield{issn}}{}}
+
+%Create a new sorting scheme for biblatex based on ISO year decending
+\DeclareSortingScheme{ymdnt}{
+ \sort{
+  \field{presort}
+ }
+ \sort[final]{
+  \field{sortkey}
+ }
+ \sort[direction=descending]{ % Change if descending desired
+  \field{sortyear}
+  \field{year}
+ }
+ \sort[direction=descending]{
+  \field[padside=left,padwidth=2,padchar=0]{month}
+  \literal{00}
+ }
+ \sort[direction=descending]{
+  \field[padside=left,padwidth=2,padchar=0]{day}
+  \literal{00}
+ }
+ \sort{
+  \field{sortname}
+  \field{author}
+  \field{editor}
+  \field{translator}
+  \field{sorttitle}
+  \field{title}
+ }
+ \sort{
+  \field{sorttitle}
+ }
+ \sort{
+  \field[padside=left,padwidth=4,padchar=0]{volume}
+  \literal{0000}
+ }
+}
+
+%Headers and footers
+\fancyhead{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset[L]{1.085in}
+\lfoot{\todayiso}
+\cfoot{Gabriel A. Devenyi --- \href{mailto:gabriel.devenyi@mcgill.ca}{gabriel.devenyi@mcgill.ca}}
+\rfoot{\thepage\ of \lastpageref{LastPage}}
+\pagestyle{fancy}
+
+%Setup PDF file links etc
+\hypersetup{
+ unicode=true,          % non-Latin characters in Acrobat’s bookmarks
+ pdfencoding=unicode,
+ pdftoolbar=false,        % show Acrobat’s toolbar?
+ pdfmenubar=true,        % show Acrobat’s menu?
+ pdffitwindow=true,     % window fit to page when opened
+ pdfstartview={FitH},    % fits the width of the page to the window
+ pdftitle={Curriculum Vit\ae},    % title
+ pdfauthor={Gabriel A. Devenyi},     % author
+ pdfsubject={Curriculum Vit\ae},   % subject of the document
+ pdfkeywords={neuroimaging} {mri} {segmentation} {structural imaging}, % list of keywords
+ pdfnewwindow=true,      % links in new window
+ colorlinks=true,       % false: boxed links; true: colored links
+ linkcolor=black,          % color of internal links
+ citecolor=black,        % color of links to bibliography
+ filecolor=black,      % color of file links
+ urlcolor=blue           % color of external links
+}
+
+\widowpenalty=10000 %Prevent widows (single sentences at end of page)
+\clubpenalty=10000 %Prevent orphans (single sentences on empty pages)
+
+%\special{pdf:minorversion 7}
+%\special{pdf:objcompresslevel 3}
+%\special{pdf:compresslevel 9}
+\pdfminorversion=7
+\pdfobjcompresslevel=9
+\pdfcompresslevel=9
+
+%Actual start of document
+\title{Curriculum Vit\ae}
+\author{Gabriel A. Devenyi}
+\date{\today}
+
+\begin{document}
+%Embed a picture in the page of me, top right
+\begin{tikzpicture}[remember picture, overlay]
+ \begin{pgfonlayer}{background}
+  \node [anchor=north east,outer sep=0pt,inner sep=0pt]  at ($(current page.north east) +(-1.5in,-0.4in)$)
+  {\includegraphics[height=4cm]{headshot}};
+ \end{pgfonlayer}
+\end{tikzpicture}
+\name{\huge Gabriel A. Devenyi}
+\begin{resume}
+ \section{\mysidestyle Professional\\Contact}
+ Research Computing Associate\\
+ Computational Brain Anatomy (CoBrA) Laboratory\\
+ Cerebral Imaging Center\\
+ Douglas Mental Health University Institute\\
+ \\
+ Affiliate Member, Department of Psychiatry\\
+ McGill University\\
+ \\
+ 6875 LaSalle Boulevard \hfill \faPhone~514.761.6131$\times$4781\\
+ CIC Pavillion, GH-2111 \hfill \faEnvelope~\href{mailto:gabriel.devenyi@mcgill.ca}{gabriel.devenyi@mcgill.ca}\\
+ Montr\'{e}al, Qu\'{e}bec \hfill \faGithub~\href{https://github.com/gdevenyi}{gdevenyi}\\
+ H4H 1R3, Canada \hfill \faTwitter~\href{https://twitter.com/gadevenyi}{gadevenyi}\\
+ \vspace{-4.5mm}%
+
+ \section{\mysidestyle Research\\Interests}
+
+ Structural neuroimaging. Image processing, classification, and registration. Pipeline design and optimization
+ for standardized image processing. High performancing computing.
+
+ \section{\mysidestyle Education}
+
+ \textbf{McMaster University}, Hamilton, ON, Canada\\\vspace{2mm}%
+ \textsl{Doctor of Philosophy --- Engineering Physics} \hfill \textbf{2014-06}\vspace{-3mm}\\\vspace{-1mm}%
+ \begin{list2}
+  \item Thesis : An Investigation into the Role of Energy and Symmetry at Epitaxial Interfaces
+  \item Adviser : Dr. John S. Preston
+ \end{list2}\vspace{-1.5mm}
+ \textsl{Bachelor of Engineering --- Engineering Physics} \hfill \textbf{2007-05}\vspace{-3mm}\\\vspace{-1mm}
+ \begin{list2}
+  \item Awarded with Distinction
+ \end{list2}
+
+ \section{\mysidestyle Honours and\\Awards}
+ Canadian Open Neuroscience Platform Research Scholar --- \$50,000 \hfill \textbf{2019}\\
+ Nano Ontario Conference Best Poster \hfill \textbf{2011-10}\\%
+ McMaster Materials Science \& Engineering Graduate Conference Best Presentation Delivery \hfill \textbf{2010-09}\\%
+ NSERC Postgraduate Scholarship D3 --- \$63,000 \hfill \textbf{2009--2011}\\%
+ Ontario Graduate Scholarship --- Doctoral --- \$15,000 --- \textsl{Declined} \hfill \textbf{2009} \\%
+ Ontario Graduate Scholarship --- Masters --- \$15,000 \hfill \textbf{2008}\\
+
+ \section{\mysidestyle Teaching\\Experience}
+ \textbf{Douglas University Mental Health Institute, CIC}, Montreal, QC, Canada \\%
+ \textsl{Research Computing Associate -- CIC Software Seminar Series} \hfill \textbf{2014-08 -- Present}
+
+ \textbf{Software Carpentry}, Online\\%
+ \textsl{Volunteer Instructor} \hfill \textbf{2012-11 -- Present}
+
+ \vspace{-2mm}
+ \textbf{McMaster University}, Hamilton, ON, Canada \\%
+ \textsl{Instructor --- MATLS 1M03, Introduction to Materials Science} \hfill \textbf{2014-06 -- 2014-08}\\
+ \textsl{Instructor --- ENG PHYS 2CE4, Computational Methods for Engineering Physics} \hfill \textbf{2014-01 -- 2014-04}\\
+ \textsl{Teaching Assistant --- ENG PHYS 3F04 Introduction to Solid State} \hfill \textbf{2012-09 -- 2012-12}\\
+ \textsl{Teaching Assistant --- ENG PHYS 4A06 Senior Undergraduate Thesis Project} \hfill  \textbf{2008-09 -- 2012-05}\\
+ \textsl{Teaching Assistant --- ENG PHYS 4U04 Advanced Computer Laboratories} \hfill \textbf{2008-09 -- 2009-05}
+
+ \section{\mysidestyle Research\\Experience}
+ \textbf{McMaster University}, Hamilton, ON, Canada\\%
+ \textsl{Laboratory Manager} \hfill \textbf{2009-05 -- 2014-05}\\
+ \textsl{Summer and Co-op Student Supervisor} \hfill \textbf{2009-09 -- 2014-05}\\
+
+ \section{\mysidestyle Journal\\Reviews}
+ PLOS \textsl{ONE} \hfill \textbf{2019}\\
+ Nature \textsl{Scientific Data} \hfill \textbf{2018}\\
+ Elsevier \textsl{Applied Surface Science} \hfill \textbf{2015}\\
+
+\section{\mysidestyle Service}
+\textbf{Centre de la Petite Enfance Funville}, Verdun, QC, Canada\\%
+\textsl{Board Memember} \hfill \textbf{2019-05 -- Present}
+
+\textbf{Software Carpentry}, Online\\%
+\textsl{Maintainer and Developer} \hfill \textbf{2012-11 -- Present}
+
+\textbf{McMaster University}, Hamilton, ON, Canada\\%
+\textsl{Ex-Officio Member - Engineering Physics Graduate Advisory Committee} \hfill \textbf{2013-12 -- 2014-08}\\
+\textsl{Engineering Physics Professorial Search Committee} \hfill \textbf{2010-11 -- 2011-01}\\
+\textsl{NanoGiga 2009, 14th Canadian Semiconductor Technology Conference} \hfill \textbf{2009-08}\\
+\textsl{Graduate Student Association -- Phoenix Executive Committee} \hfill \textbf{2009-09 -- 2013-12}
+
+\textbf{Nano Ontario}, ON, Canada\\%
+\textsl{Board Member At-Large - Chair, Communications Committee} \hfill \textbf{2013-03 -- 2015-01}
+
+\textbf{Center for Inquiry}, Toronto, ON, Canada\\%
+\textsl{Committee for the Advancement of Scientific Skepticism} \hfill \textbf{2010-10 -- 2012-08}\\
+
+ \section{\mysidestyle Bibliometrics}
+ Published Peer-Reviewed Articles : 52 (4 first author, 2 senior author)\\
+ Abstracts in Conference Proceedings : 50\\
+ Invited Presentations : 11\\
+ h-index : 15\\
+ i10-index : 21\\
+
+ \section{\mysidestyle Patents}
+ \begin{refsection}[patents.bib]
+  \interlinepenalty=10000 %Prevent breaking of paragraphs
+  \newrefcontext[sorting=ymdnt]
+  \nocite{*}
+  \printbibliography[heading=none]
+ \end{refsection}
+
+ \section{\mysidestyle Invited\\Presentations}
+ \begin{refsection}[invited.bib]
+  \interlinepenalty=10000 %Prevent breaking of paragraphs
+  \newrefcontext[sorting=ymdnt]
+  \nocite{*}
+  \printbibliography[heading=none]
+ \end{refsection}
+
+ \section{\mysidestyle Contributed\\Publications}
+ \begin{refsection}[contributed.bib]
+  \interlinepenalty=10000 %Prevent breaking of paragraphs
+  \newrefcontext[sorting=ymdnt]
+  \nocite{*}
+  \printbibliography[heading=none]
+ \end{refsection}
+
+ \section{\mysidestyle Peer-Reviewed\\Publications}
+ \begin{refsection}[papers.bib]
+  \interlinepenalty=10000 %Prevent breaking of paragraphs
+  \newrefcontext[sorting=ymdnt]
+  \nocite{*}
+  \printbibliography[heading=none]
+ \end{refsection}
+
+\end{resume}
+\end{document}
