@@ -10,8 +10,7 @@
 \usepackage{booktabs} %makes tables look better
 \usepackage[T1]{fontenc} %upgrades font encodings
 \usepackage[utf8]{inputenc}%Tells latex the file is saved as UTF-8 (make sure it is!)
-\usepackage{lmodern} %improved version of computer modern font
-%\usepackage{fixltx2e}
+\usepackage{lmodern} % To switch to Latin Modern
 %\usepackage{ragged2e}
 \usepackage{slantsc}
 \usepackage{upgreek} %Provides upright (non italic) greek fonts
@@ -117,7 +116,8 @@
 %Hide ISSN
 %\AtEveryBibitem{\ifentrytype{article}{\clearfield{issn}}{}}
 
-%Create a new sorting scheme for biblatex based on ISO year decending
+%Create a new sorting scheme for biblatex based on ISO year descending
+% https://tex.stackexchange.com/questions/46868/biblatex-sorting-by-date
 \DeclareSortingScheme{ymdnt}{
  \sort{
   \field{presort}
@@ -208,10 +208,10 @@
 \end{tikzpicture}
 \name{\huge Gabriel A. Devenyi}
 \begin{resume}
- \section{\mysidestyle Professional\\Contact}
+ \section{\mysidestyle{}Professional\\Contact}
  Research Computing Associate\\
  Computational Brain Anatomy (CoBrA) Laboratory \& Cerebral Imaging Center\\
- Project Lead -- Douglas Neuroinformatics Platform\\
+ Project Lead --- Douglas Neuroinformatics Platform\\
  Douglas Mental Health University Institute\\
  \\
  Affiliate Member, Department of Psychiatry\\
@@ -223,25 +223,26 @@
  H4H 1R3, Canada \hfill \faTwitter~\href{https://twitter.com/gadevenyi}{gadevenyi}\\
  \vspace{-4.5mm}%
 
- \section{\mysidestyle Research\\Interests}
+ \section{\mysidestyle{}Research\\Interests}
 
  Structural neuroimaging. Image processing, classification, and registration. Pipeline design and optimization
- for standardized image processing. High performance computing.
+ for standardized image processing. High performance computing. Statistical methods in Neuroimaging.
+ Architectural design of data management databases for data capture and management.
 
- \section{\mysidestyle Education}
+ \section{\mysidestyle{}Education}
 
  \textbf{McMaster University}, Hamilton, ON, Canada\\\vspace{2mm}%
  \textsl{Doctor of Philosophy --- Engineering Physics} \hfill \textbf{2014-06}\vspace{-3mm}\\\vspace{-1mm}%
  \begin{list2}
   \item Thesis : An Investigation into the Role of Energy and Symmetry at Epitaxial Interfaces
-  \item Adviser : Dr. John S. Preston
+  \item Adviser : Dr.~John S. Preston
  \end{list2}\vspace{-1.5mm}
  \textsl{Bachelor of Engineering --- Engineering Physics} \hfill \textbf{2007-05}\vspace{-3mm}\\\vspace{-1mm}
  \begin{list2}
   \item Awarded with Distinction
  \end{list2}
 
- \section{\mysidestyle Honours and\\Awards}
+ \section{\mysidestyle{}Honours and\\Awards}
  Canadian Open Neuroscience Platform Research Scholar --- \$50,000 \hfill \textbf{2019}\\
  Nano Ontario Conference Best Poster \hfill \textbf{2011-10}\\%
  McMaster Materials Science \& Engineering Graduate Conference Best Presentation Delivery \hfill \textbf{2010-09}\\%
@@ -249,9 +250,9 @@
  Ontario Graduate Scholarship --- Doctoral --- \$15,000 --- \textsl{Declined} \hfill \textbf{2009} \\%
  Ontario Graduate Scholarship --- Masters --- \$15,000 \hfill \textbf{2008}\\
 
- \section{\mysidestyle Teaching\\Experience}
+ \section{\mysidestyle{}Teaching\\Experience}
  \textbf{Douglas University Mental Health Institute, CIC}, Montreal, QC, Canada \\%
- \textsl{Research Computing Associate -- CIC Software Seminar Series} \hfill \textbf{2014-08 -- Present}
+ \textsl{Research Computing Associate --- CIC Software Seminar Series} \hfill \textbf{2014-08 -- Present}
 
  \textbf{Software Carpentry}, Online\\%
  \textsl{Volunteer Instructor} \hfill \textbf{2012-11 -- Present}
@@ -264,19 +265,19 @@
  \textsl{Teaching Assistant --- ENG PHYS 4A06 Senior Undergraduate Thesis Project} \hfill  \textbf{2008-09 -- 2012-05}\\
  \textsl{Teaching Assistant --- ENG PHYS 4U04 Advanced Computer Laboratories} \hfill \textbf{2008-09 -- 2009-05}
 
- \section{\mysidestyle Research\\Experience}
+ \section{\mysidestyle{}Research\\Experience}
  \textbf{McMaster University}, Hamilton, ON, Canada\\%
  \textsl{Laboratory Manager} \hfill \textbf{2009-05 -- 2014-05}\\
  \textsl{Summer and Co-op Student Supervisor} \hfill \textbf{2009-09 -- 2014-05}\\
 
- \section{\mysidestyle Journal\\Reviews}
+ \section{\mysidestyle{}Journal\\Reviews}
  PLOS \textsl{ONE} \hfill \textbf{2019}\\
  Nature \textsl{Scientific Data} \hfill \textbf{2018}\\
  Elsevier \textsl{Applied Surface Science} \hfill \textbf{2015}\\
 
-\section{\mysidestyle Service}
+\section{\mysidestyle{}Service}
 \textbf{Centre de la Petite Enfance Funville}, Verdun, QC, Canada\\%
-\textsl{Board Memember} \hfill \textbf{2019-05 -- 2021-05}
+\textsl{Board Member} \hfill \textbf{2019-05 -- 2021-05}
 
 \textbf{Software Carpentry}, Online\\%
 \textsl{Maintainer and Developer shell-novice Lesson} \hfill \textbf{2014-11 -- 2022-08}
@@ -285,40 +286,40 @@
 \textsl{Ex-Officio Member - Engineering Physics Graduate Advisory Committee} \hfill \textbf{2013-12 -- 2014-08}\\
 \textsl{Engineering Physics Professorial Search Committee} \hfill \textbf{2010-11 -- 2011-01}\\
 \textsl{NanoGiga 2009, 14th Canadian Semiconductor Technology Conference} \hfill \textbf{2009-08}\\
-\textsl{Graduate Student Association -- Phoenix Executive Committee} \hfill \textbf{2009-09 -- 2013-12}
+\textsl{Graduate Student Association --- Phoenix Executive Committee} \hfill \textbf{2009-09 -- 2013-12}
 
 \textbf{Nano Ontario}, ON, Canada\\%
 \textsl{Board Member At-Large - Chair, Communications Committee} \hfill \textbf{2013-03 -- 2015-01}\\
 
-\section{\mysidestyle Bibliometrics}
+\section{\mysidestyle{}Bibliometrics}
 Published Peer-Reviewed Articles : 92 (4 first author, 2 senior author)\\
 Abstracts in Conference Proceedings : 87\\
 Invited Presentations : 11\\
 h-index : 30\\
 i10-index : 67
 
- \section{\mysidestyle Patents}
+ \section{\mysidestyle{}Patents}
  \begin{refsection}[patents.bib]
   \interlinepenalty=10000 %Prevent breaking of paragraphs
   \newrefcontext[sorting=ymdnt]
   \nocite{*}
   \printbibliography[heading=none]
  \end{refsection}
- \section{\mysidestyle Invited\\Presentations}
+ \section{\mysidestyle{}Invited\\Presentations}
  \begin{refsection}[invited.bib]
   \interlinepenalty=10000 %Prevent breaking of paragraphs
   \newrefcontext[sorting=ymdnt]
   \nocite{*}
   \printbibliography[heading=none]
  \end{refsection}
- \section{\mysidestyle Contributed\\Publications}
+ \section{\mysidestyle{}Contributed\\Publications}
  \begin{refsection}[contributed.bib]
   \interlinepenalty=10000 %Prevent breaking of paragraphs
   \newrefcontext[sorting=ymdnt]
   \nocite{*}
   \printbibliography[heading=none]
  \end{refsection}
- \section{\mysidestyle Peer-Reviewed\\Publications}
+ \section{\mysidestyle{}Peer-Reviewed\\Publications}
  \begin{refsection}[papers.bib]
   \interlinepenalty=10000 %Prevent breaking of paragraphs
   \newrefcontext[sorting=ymdnt]
