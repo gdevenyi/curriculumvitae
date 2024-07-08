@@ -3,7 +3,7 @@
 \RequirePackage[l2tabu, orthodox]{nag}
 \documentclass[margin1,line,canadian]{resume}
 \usepackage[hyphens]{url}
-\usepackage[colorlinks,hypertexnames=false,breaklinks]{hyperref}
+\usepackage[colorlinks,hypertexnames=false,breaklinks,bookmarks]{hyperref}
 \usepackage[canadian]{babel}
 \usepackage[activate=true,tracking=true,kerning=true,expansion=true,spacing=true]{microtype}
 \microtypecontext{spacing=nonfrench}
@@ -31,7 +31,8 @@
 \usepackage{etoolbox}
 \pagenumbering{arabic}
 
-%https://tex.stackexchange.com/questions/73136/make-specific-author-bold-using-biblatex/416416#416416
+% https://tex.stackexchange.com/questions/73136/make-specific-author-bold-using-biblatex/416416#416416
+% Code to bold my name in citations
 \makeatletter
 \def\nhblx@bibfile@name{\jobname -nhblx.bib}
 \newwrite\nhblx@bibfile
@@ -173,17 +174,7 @@
 \DeclareNameAlias{author}{given-family-etal}
 \DeclareNameAlias{editor}{given-family-etal}
 \DeclareNameAlias{translator}{given-family-etal}
-
-
-
-
-
-
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \renewcommand{\dateseparator}{-}
 \newcommand{\todayiso}{\the\year \dateseparator \twodigit\month \dateseparator \twodigit\day}
@@ -338,7 +329,7 @@
  McMaster Materials Science \& Engineering Graduate Conference Best Presentation Delivery \hfill \textbf{2010-09}\\%
  NSERC Postgraduate Scholarship D3 --- \$63,000 \hfill \textbf{2009--2011}\\%
  Ontario Graduate Scholarship --- Doctoral --- \$15,000 --- \textsl{Declined} \hfill \textbf{2009} \\%
- Ontario Graduate Scholarship --- Masters --- \$15,000 \hfill \textbf{2008}\\
+ Ontario Graduate Scholarship --- Masters --- \$15,000 \hfill \textbf{2008}
 
  \section{\mysidestyle{}Teaching\\Experience}
  \textbf{Douglas University Mental Health Institute, CIC}, Montreal, QC, Canada \\%
@@ -358,7 +349,7 @@
  \section{\mysidestyle{}Research\\Experience}
  \textbf{McMaster University}, Hamilton, ON, Canada\\%
  \textsl{Laboratory Manager} \hfill \textbf{2009-05 -- 2014-05}\\
- \textsl{Summer and Co-op Student Supervisor} \hfill \textbf{2009-09 -- 2014-05}\\
+ \textsl{Summer and Co-op Student Supervisor} \hfill \textbf{2009-09 -- 2014-05}
 
 \section{\mysidestyle{}Journal\\Reviews}
 MIT Press \textsl{Imaging Neuroscience} \hfill \textbf{2023}\\
@@ -387,11 +378,25 @@ SPIE \textsl{Journal of Photonics For Energy} \hfill \textbf{2014}
 \textsl{Graduate Student Association --- Phoenix Executive Committee} \hfill \textbf{2009-09 -- 2013-12}
 
 \textbf{Nano Ontario}, ON, Canada\\%
-\textsl{Board Member At-Large - Chair, Communications Committee} \hfill \textbf{2013-03 -- 2015-01}\\
+\textsl{Board Member At-Large - Chair, Communications Committee} \hfill \textbf{2013-03 -- 2015-01}
+
+\section{\mysidestyle{}Software}
+\textbf{\href{https://github.com/CoBrALab/optimized_antsMultivariateTemplateConstruction}{\color{black}optimized\_antsMultivariateTemplateConstruction}}\\%
+An automated pipeline to perform multi-level deformation based morphometry (DBM) on brain volume differences for animal and human MRI.
+
+\textbf{\href{https://github.com/gdevenyi/NeuroAnsible}{\color{black}NeuroAnsible}}\\%
+An automated deployment tool for transforming an Ubuntu desktop into a neuroimaging workstation in a single step.
+
+\textbf{\href{https://github.com/CoBrALab/iterativeN3}{\color{black}iterativeN3}}\\%
+A comprehensive preprocessing (inhomogeneity correction, denoising, field-of-view cropping, and background removal), N-tissue
+classification, brain extraction, and standard space alignment tool for human T1-weighted MRIs.
+
+\textbf{\href{https://github.com/CoBrALab/qbatch}{\color{black}qbatch}}\\%
+A python cluster abstraction tool for performing command-line based parallelization for SGE, SLURM, LSF and PBS cluster systems.
 
 \section{\mysidestyle{}Bibliometrics}
-Published Peer-Reviewed Articles : 92 (4 first author, 2 senior author)\\
-Abstracts in Conference Proceedings : 87\\
+Peer-Reviewed Articles : 92 (4 first author, 2 senior author)\\
+Presentations and Posters in Conference Proceedings : 87\\
 Invited Presentations : 11\\
 h-index : 30\\
 i10-index : 67
