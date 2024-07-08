@@ -95,6 +95,96 @@
 \addboldnames{{Devenyi, G. A.},{Devenyi, Gabriel Allan},{Devenyi, Gabriel},{Devenyi, G A},{Gabriel Devenyi},{Devenyi, GA},{Devenyi, Gabriel A}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+% https://tex.stackexchange.com/questions/341313/biblatex-always-show-a-specific-author/343221?noredirect=1#comment1796361_343221
+
+\newcounter{namesnotimportant}
+\newtoggle{ellipsis}
+
+\makeatletter
+\newbibmacro*{name:etal:delim}[1]{%
+  \ifnumgreater{\value{listcount}}{\value{liststart}}
+    {\ifboolexpr{
+       test {\ifnumless{\value{listcount}}{\value{liststop}}}
+       or
+       test \ifmorenames
+       or test {\ifnumcomp{\value{namesnotimportant}}{>}{0}}
+     }
+       {\printdelim{multinamedelim}}
+       {\lbx@finalnamedelim{#1}}}
+    {}}
+\makeatother
+
+\DeclareNameFormat{given-family-etal}{%
+  \letbibmacro{name:delim}{name:etal:delim}%
+  \ifnumcomp{\value{listcount}}{=}{1}
+    {\setcounter{namesnotimportant}{0}%
+     \global\toggletrue{ellipsis}}
+    {}%
+  \ifboolexpr{test {\ifnumcomp{\value{listcount}}{=}{1}}
+              or test {\ifnumcomp{\value{listtotal}}{=}{2}}
+              or test {\ifnumcomp{\value{listcount}}{=}{\value{listtotal}}}}
+    {\ifgiveninits
+      {\usebibmacro{name:given-family}
+         {\namepartfamily}
+         {\namepartgiveni}
+         {\namepartprefix}
+         {\namepartsuffix}}
+      {\usebibmacro{name:given-family}
+         {\namepartfamily}
+         {\namepartgiven}
+         {\namepartprefix}
+         {\namepartsuffix}}}%
+    {\ifboolexpr{test {\iffieldequalstr{hash}{9eca3b2c038ea2887161409590d86c7e}}
+                 or
+                 test {\iffieldequalstr{hash}{bbe6f69e72a9242bc1bd6610fee4d49b}}
+                 or
+                 test {\iffieldequalstr{hash}{d4fc4ad945020d3ec9c3c8c3c4f53a41}}
+                 or
+                 test {\iffieldequalstr{hash}{e0529bf51d94c9b9e9a2f938046591a0}}
+                 or
+                 test {\iffieldequalstr{hash}{e323f1f7a8d1e3eafe0590841ea626e2}}}%% <----- put the correct hash here
+      {\global\toggletrue{ellipsis}%
+       \ifgiveninits
+        {\usebibmacro{name:given-family}
+           {\namepartfamily}
+           {\namepartgiveni}
+           {\namepartprefix}
+           {\namepartsuffix}}
+        {\usebibmacro{name:given-family}
+           {\namepartfamily}
+           {\namepartgiven}
+           {\namepartprefix}
+           {\namepartsuffix}}}%
+      {\stepcounter{namesnotimportant}%
+       \iftoggle{ellipsis}
+         {\addcomma\space\textellipsis\global\togglefalse{ellipsis}\isdot}
+         {}}}%
+  \ifboolexpr{
+    test {\ifnumequal{\value{listcount}}{\value{liststop}}}
+    and
+    (test \ifmorenames
+     or test {\ifnumcomp{\value{namesnotimportant}}{>}{0}})
+  }
+    {\andothersdelim\bibstring{andothers}}
+    {}}
+
+\DeclareNameAlias{sortname}{given-family-etal}
+\DeclareNameAlias{author}{given-family-etal}
+\DeclareNameAlias{editor}{given-family-etal}
+\DeclareNameAlias{translator}{given-family-etal}
+
+
+
+
+
+
+
+
+
+
+
+
 \renewcommand{\dateseparator}{-}
 \newcommand{\todayiso}{\the\year \dateseparator \twodigit\month \dateseparator \twodigit\day}
 
