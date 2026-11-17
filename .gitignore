@@ -88,3 +88,9 @@ sympy-plots-for-*.tex/
 # xindy
 *.xdy
 cv.bbl-SAVE-ERROR
+
+## Local tectonic binary
+/tectonic
+
+## Python caches
+__pycache__/
