@@ -196,6 +196,11 @@
    \pertype{article}
    \step[fieldset=issn, null]
   }
+  \map{ % Paperpile biblatex export puts the conference in eventtitle, which @misc does not print
+   \pertype{misc}
+   \step[fieldsource=eventtitle, final]
+   \step[fieldset=howpublished, origfieldval]
+  }
   \map{ % lmodern has no Greek glyphs; use textgreek instead
    \step[fieldsource=title, match=\regexp{β}, replace=\regexp{\\textbeta\{\}}]
   }
