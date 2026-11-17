@@ -201,6 +201,9 @@
    \step[fieldsource=eventtitle, final]
    \step[fieldset=howpublished, origfieldval]
   }
+  \map{ % Normalise my name so the bold and first/me/last code finds it
+   \step[fieldsource=author, match=\regexp{Devenyi,\s+(?:G\.?|Gabriel)(?=\s+and\s|\s*$)}, replace={Devenyi, Gabriel A}]
+  }
   \map{ % lmodern has no Greek glyphs; use textgreek instead
    \step[fieldsource=title, match=\regexp{β}, replace=\regexp{\\textbeta\{\}}]
   }
@@ -431,8 +434,8 @@ A python cluster abstraction tool for performing command-line based parallelizat
 GitHub: 34 \faStar{} 13 \faCodeFork
 
 \section{\mysidestyle{}Bibliometrics}
-Peer-Reviewed Articles : 92 (4 first author, 2 senior author)\\
-Presentations and Posters in Conference Proceedings : 93\\
+Peer-Reviewed Articles : 135 (4 first author, 3 senior author)\\
+Presentations and Posters in Conference Proceedings : 104\\
 Invited Presentations : 11\\
 Citations : 8491 (Google Scholar, 2026-11)\\
 h-index : 41\\
