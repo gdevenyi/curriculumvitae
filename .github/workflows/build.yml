@@ -1,0 +1,52 @@
+name: Build CV
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Tectonic cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Tectonic
+          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex', '**/*.cls') }}
+          restore-keys: |
+            ${{ runner.os }}-tectonic-
+
+      # The tectonic bundle ships biblatex 3.17, which needs biber 2.17 exactly.
+      - name: Setup Tectonic and Biber
+        uses: wtfjoke/setup-tectonic@v4
+        with:
+          tectonic-version: 0.17.0
+          biber-version: "2.17"
+
+      - name: Build PDF
+        run: tectonic -X compile --keep-logs cv.tex
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: cv
+          path: |
+            cv.pdf
+            cv.log
+
+      - name: Publish PDF to the "latest" release
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp cv.pdf "GDevenyi_CV.pdf"
+          gh release view latest >/dev/null 2>&1 || \
+            gh release create latest --title "Latest CV" --notes "Built automatically from master."
+          gh release upload latest GDevenyi_CV.pdf --clobber
