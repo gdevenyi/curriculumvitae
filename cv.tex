@@ -35,8 +35,7 @@
 \usepackage{tikz}
 \usetikzlibrary{backgrounds,calc}
 \usepackage{csquotes}
-\usepackage{fontawesome5}
-\usepackage{academicons}
+\usepackage{fontawesome6} % vendored in texmf/fontawesome6 (not in the tectonic bundle)
 \usepackage[backend=biber,style=verbose,backref=true,maxnames=999,alldates=iso,seconds=true,bibencoding=utf8,dashed=false,giveninits=true]{biblatex}
 \usepackage{etoolbox}
 \pagenumbering{arabic}
@@ -192,11 +191,6 @@
 % Short version: cv-short.tex defines \shortcv and then inputs this file
 \newif\ifshortcv
 \ifdefined\shortcv\shortcvtrue\fi
-
-% X (Twitter) logo; fontawesome5 has no X icon
-\newcommand{\faX}{\tikz[baseline=-0.15ex,x=0.7em,y=0.7em]{%
- \draw[line width=0.12em,line cap=round] (0,0)--(1,1);
- \draw[line width=0.05em,line cap=round] (0,1)--(1,0);}}
 
 % Publication counts and citation metrics, written by scripts/pub_stats.py (run in CI)
 \IfFileExists{pub_stats.tex}{\input{pub_stats.tex}}{}
@@ -359,8 +353,8 @@
  CIC Pavillion, GH-2111 & \faEnvelope~\href{mailto:gabriel.devenyi@mcgill.ca}{gabriel.devenyi@mcgill.ca}\\
  Montr\'{e}al, Qu\'{e}bec & \faGlobe~\href{https://gabriel.devenyi.ca}{gabriel.devenyi.ca}\\
  H4H 1R3, Canada & \faOrcid~\href{https://orcid.org/0000-0002-7766-1187}{0000-0002-7766-1187}\\
- & \aiGoogleScholar~\href{https://scholar.google.com/citations?user=-H-H1AoAAAAJ}{Google Scholar}\\
- & \faGithub~\href{https://github.com/gdevenyi}{gdevenyi} \quad \faLinkedin~\href{https://www.linkedin.com/in/gadevenyi}{gadevenyi} \quad \faX~\href{https://x.com/gadevenyi}{gadevenyi}\\
+ & \faGoogleScholar~\href{https://scholar.google.com/citations?user=-H-H1AoAAAAJ}{Google Scholar}\\
+ & \faGithub~\href{https://github.com/gdevenyi}{gdevenyi} \quad \faLinkedin~\href{https://www.linkedin.com/in/gadevenyi}{gadevenyi} \quad \faXTwitter~\href{https://x.com/gadevenyi}{gadevenyi}\\
  \end{tabular}
 
  \section{\mysidestyle{}Profile}

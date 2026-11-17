@@ -55,9 +55,13 @@ exactly this biber version.
 ```bash
 python3 scripts/github_stats.py   # needs `gh auth login` or GITHUB_TOKEN
 python3 scripts/pub_stats.py
-tectonic -X compile cv.tex
-tectonic -X compile cv-short.tex
+tectonic -X compile -Z search-path=texmf/fontawesome6 cv.tex
+tectonic -X compile -Z search-path=texmf/fontawesome6 cv-short.tex
 ```
+
+The icons use `fontawesome6`, which is not in the Tectonic bundle. A copy of
+the package (LPPL 1.3c) and its fonts (SIL OFL 1.1) from CTAN is in
+`texmf/fontawesome6/`; the `-Z search-path` option makes Tectonic find it.
 
 Put `biber` 2.17 on your `PATH` first (binaries:
 <https://sourceforge.net/projects/biblatex-biber/files/biblatex-biber/2.17/binaries/>).

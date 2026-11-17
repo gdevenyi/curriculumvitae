@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ~/.cache/Tectonic
-          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex', '**/*.cls') }}
+          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex', '**/*.cls', 'texmf/**') }}
           restore-keys: |
             ${{ runner.os }}-tectonic-
 
@@ -46,14 +46,14 @@ jobs:
 
       - name: Build PDF
         run: |
-          tectonic -X compile --keep-logs cv.tex
-          tectonic -X compile --keep-logs cv-short.tex
+          # fontawesome6 is not in the tectonic bundle; it is vendored in texmf/
+          tectonic -X compile -Z search-path=texmf/fontawesome6 --keep-logs cv.tex
+          tectonic -X compile -Z search-path=texmf/fontawesome6 --keep-logs cv-short.tex
 
       # tectonic exits 0 even when a glyph is missing from the font
       - name: Check for missing glyphs
         run: |
-          # academicons.ttf has no space glyph; that warning is harmless
-          if grep -h 'Missing character' cv.log cv-short.log | grep -v 'U+0020) in font \[academicons'; then
+          if grep -h 'Missing character' cv.log cv-short.log; then
             echo "::error::Some characters are missing from the font (see above)"
             exit 1
           fi
