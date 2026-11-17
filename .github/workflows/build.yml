@@ -37,18 +37,23 @@ jobs:
 
       # Live GitHub/PyPI numbers for the Research Software section.
       # On failure the script keeps the committed software_stats.tex.
-      - name: Update software statistics
+      - name: Update software and publication statistics
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python3 scripts/github_stats.py
+        run: |
+          python3 scripts/github_stats.py
+          python3 scripts/pub_stats.py
 
       - name: Build PDF
-        run: tectonic -X compile --keep-logs cv.tex
+        run: |
+          tectonic -X compile --keep-logs cv.tex
+          tectonic -X compile --keep-logs cv-short.tex
 
       # tectonic exits 0 even when a glyph is missing from the font
       - name: Check for missing glyphs
         run: |
-          if grep -n 'Missing character' cv.log; then
+          # academicons.ttf has no space glyph; that warning is harmless
+          if grep -h 'Missing character' cv.log cv-short.log | grep -v 'U+0020) in font \[academicons'; then
             echo "::error::Some characters are missing from the font (see above)"
             exit 1
           fi
@@ -60,19 +65,21 @@ jobs:
           name: cv
           path: |
             cv.pdf
+            cv-short.pdf
             cv.log
+            cv-short.log
 
       # Pushes made with GITHUB_TOKEN do not start new workflow runs, so this cannot loop.
-      - name: Commit updated cv.pdf and statistics to master
+      - name: Commit updated PDFs and statistics to master
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add cv.pdf software_stats.tex
+          git add cv.pdf cv-short.pdf software_stats.tex pub_stats.tex
           if git diff --cached --quiet; then
             echo "nothing changed"
             exit 0
           fi
-          git commit -m "Update cv.pdf and software statistics [skip ci]"
+          git commit -m "Update CV PDFs and statistics [skip ci]"
           git pull --rebase origin master
           git push origin HEAD:master

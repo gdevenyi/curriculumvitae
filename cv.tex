@@ -13,9 +13,13 @@
 \usepackage[protrusion=true,expansion=false]{microtype}
 \fi
 \usepackage{booktabs} %makes tables look better
+\ifPDFTeX
 \usepackage[T1]{fontenc} %upgrades font encodings
 \usepackage[utf8]{inputenc}%Tells latex the file is saved as UTF-8 (make sure it is!)
 \usepackage{lmodern} % To switch to Latin Modern
+\else % XeTeX (tectonic): Unicode Latin Modern (OpenType) via fontspec
+\usepackage{fontspec}
+\fi
 %\usepackage{ragged2e}
 \usepackage{slantsc}
 \usepackage{upgreek} %Provides upright (non italic) greek fonts
@@ -31,8 +35,9 @@
 \usepackage{tikz}
 \usetikzlibrary{backgrounds,calc}
 \usepackage{csquotes}
-\usepackage{fontawesome}
-\usepackage[backend=biber,style=verbose,backref=true,maxnames=99,alldates=iso,seconds=true,bibencoding=utf8,dashed=false,giveninits=true]{biblatex}
+\usepackage{fontawesome5}
+\usepackage{academicons}
+\usepackage[backend=biber,style=verbose,backref=true,maxnames=999,alldates=iso,seconds=true,bibencoding=utf8,dashed=false,giveninits=true]{biblatex}
 \usepackage{etoolbox}
 \pagenumbering{arabic}
 
@@ -184,13 +189,39 @@
 \renewcommand{\dateseparator}{-}
 \newcommand{\todayiso}{\the\year \dateseparator \twodigit\month \dateseparator \twodigit\day}
 
+% Short version: cv-short.tex defines \shortcv and then inputs this file
+\newif\ifshortcv
+\ifdefined\shortcv\shortcvtrue\fi
+
+% X (Twitter) logo; fontawesome5 has no X icon
+\newcommand{\faX}{\tikz[baseline=-0.15ex,x=0.7em,y=0.7em]{%
+ \draw[line width=0.12em,line cap=round] (0,0)--(1,1);
+ \draw[line width=0.05em,line cap=round] (0,1)--(1,0);}}
+
+% Publication counts and citation metrics, written by scripts/pub_stats.py (run in CI)
+\IfFileExists{pub_stats.tex}{\input{pub_stats.tex}}{}
+\newcommand{\pubstat}[1]{\ifcsname pub@#1\endcsname\csname pub@#1\endcsname\else ?\fi}
+\providecommand{\selectedkeys}{}
+
+% Compact style for long lists (contributed presentations): use inside a group
+\newtoggle{compactbib}
+\AtEveryBibitem{\iftoggle{compactbib}{%
+ \clearfield{url}\clearfield{doi}\clearfield{note}\clearfield{pages}%
+ \clearfield{volume}\clearfield{number}\clearfield{issue}\clearfield{eprint}%
+ \clearlist{publisher}\clearlist{location}\clearfield{venue}\clearfield{subtitle}%
+ \clearfield{urlyear}\clearfield{urlmonth}\clearfield{urldate}}{}}
+\newcommand{\compactbib}{\small\setlength{\bibitemsep}{0pt}\toggletrue{compactbib}}
+
 % Live software statistics, written by scripts/github_stats.py (run in CI)
 \IfFileExists{software_stats.tex}{\input{software_stats.tex}}{}
 \newcommand{\swstat}[2]{\ifcsname sw@#1@#2\endcsname\csname sw@#1@#2\endcsname\else ?\fi}
-\newcommand{\swgh}[1]{\swstat{#1}{stars}~\faStar{} \swstat{#1}{forks}~\faCodeFork}
+\newcommand{\swgh}[1]{\swstat{#1}{stars}~\faStar{} \swstat{#1}{forks}~\faCodeBranch}
 % \swrepo{owner/repo}{display name}{description}{role and statistics}
-\newcommand{\swrepo}[4]{\textbf{\href{https://github.com/#1}{\color{black}#2}} --- #3\\
- \textsl{#4}\par}
+\newcommand{\swrepo}[4]{\ifshortcv
+ \textbf{\href{https://github.com/#1}{\color{black}#2}} --- #3 (\swgh{#1})\par
+ \else
+ \textbf{\href{https://github.com/#1}{\color{black}#2}} --- #3\\
+ \textsl{#4}\par\fi}
 
 %Print url or eprint only if no DOI
 \DeclareSourcemap{
@@ -203,6 +234,10 @@
   \map{
    \pertype{article}
    \step[fieldset=issn, null]
+  }
+  \map{ % Do not print language ("en.") or access dates ("visited on")
+   \step[fieldset=language, null]
+   \step[fieldset=urldate, null]
   }
   \map{ % Paperpile biblatex export puts the conference in eventtitle, which @misc does not print
    \pertype{misc}
@@ -316,39 +351,32 @@
 \name{\huge Gabriel A. Devenyi}
 \begin{resume}
  \section{\mysidestyle{}Professional\\Contact}
- Research Computing Associate\\
- Computational Brain Anatomy (CoBrA) Laboratory \& Cerebral Imaging Center\\
- Project Lead --- Douglas Neuroinformatics Platform\\
- Douglas Mental Health University Institute\\
+ Douglas Neuroinformatics Platform \& Cerebral Imaging Centre\\
+ Douglas Research Centre, McGill University\\
  \\
- Affiliate Member, Department of Psychiatry\\
- McGill University\\
- \\
- 6875 LaSalle Boulevard \hfill \faPhone~514.761.6131$\times$4781\\
- CIC Pavillion, GH-2111 \hfill \faEnvelope~\href{mailto:gabriel.devenyi@mcgill.ca}{gabriel.devenyi@mcgill.ca}\\
- Montr\'{e}al, Qu\'{e}bec \hfill \faGithub~\href{https://github.com/gdevenyi}{gdevenyi}\\
- H4H 1R3, Canada \hfill \faTwitter~\href{https://twitter.com/gadevenyi}{gadevenyi}\\
- \mbox{}\hfill \faLinkedin~\href{https://www.linkedin.com/in/gadevenyi}{gadevenyi}\\
- \vspace{-4.5mm}%
+ \begin{tabular}{@{}p{0.36\linewidth}@{}p{0.42\linewidth}@{}}
+ 6875 LaSalle Boulevard & \faPhone~514.761.6131$\times$4781\\
+ CIC Pavillion, GH-2111 & \faEnvelope~\href{mailto:gabriel.devenyi@mcgill.ca}{gabriel.devenyi@mcgill.ca}\\
+ Montr\'{e}al, Qu\'{e}bec & \faGlobe~\href{https://gabriel.devenyi.ca}{gabriel.devenyi.ca}\\
+ H4H 1R3, Canada & \faOrcid~\href{https://orcid.org/0000-0002-7766-1187}{0000-0002-7766-1187}\\
+ & \aiGoogleScholar~\href{https://scholar.google.com/citations?user=-H-H1AoAAAAJ}{Google Scholar}\\
+ & \faGithub~\href{https://github.com/gdevenyi}{gdevenyi} \quad \faLinkedin~\href{https://www.linkedin.com/in/gadevenyi}{gadevenyi} \quad \faX~\href{https://x.com/gadevenyi}{gadevenyi}\\
+ \end{tabular}
+
+ \section{\mysidestyle{}Profile}
+ Neuroinformatics and research-computing lead with more than a decade of experience building the software,
+ platforms and computing infrastructure behind brain-imaging research. I lead the Douglas Neuroinformatics
+ Platform and its development team, and run the Linux/HPC environment of the Cerebral Imaging Centre at the
+ Douglas Research Centre (McGill University). My open-source tools for image registration, template
+ construction and morphometry, and my contributions to ANTs, ITK and MINC, are used by laboratories worldwide
+ and support \pubstat{papers} peer-reviewed publications. I also co-founded Clinivance, which builds secure
+ electronic data capture for academic clinical research.
 
  \section{\mysidestyle{}Research\\Interests}
-
- Structural neuroimaging. Image processing, classification, and registration. Pipeline design and optimization
- for standardized image processing. High performance computing. Statistical methods in Neuroimaging.
- Architectural design of data management databases for data capture and management.
-
- \section{\mysidestyle{}Education}
-
- \textbf{McMaster University}, Hamilton, ON, Canada\\\vspace{2mm}%
- \textsl{Doctor of Philosophy --- Engineering Physics} \hfill \textbf{2014-06}\vspace{-3mm}\\\vspace{-1mm}%
- \begin{list2}
-  \item Thesis : An Investigation into the Role of Energy and Symmetry at Epitaxial Interfaces
-  \item Adviser : Dr.~John S. Preston
- \end{list2}\vspace{-1.5mm}
- \textsl{Bachelor of Engineering --- Engineering Physics} \hfill \textbf{2007-05}\vspace{-3mm}\\\vspace{-1mm}
- \begin{list2}
-  \item Awarded with Distinction
- \end{list2}
+ Reproducible neuroimaging pipelines and research software engineering. Image registration, template
+ construction and morphometry across species (mouse, rat, non-human primate, human). Quality control and
+ standardization of MRI processing. Research data platforms: electronic data capture, controlled data sharing,
+ FAIR and BIDS data. High-performance and secure research computing, including self-hosted AI infrastructure.
 
  \section{\mysidestyle{}Professional\\Experience}
  \textbf{Douglas Research Centre}, Montreal, QC, Canada\\%
@@ -366,62 +394,27 @@
  \textbf{Gabriel Devenyi Consulting}, Montreal, QC, Canada\\%
  \textsl{Founder and Principal --- Research Computing and Infrastructure Consulting} \hfill \textbf{2019-01 -- Present}
 
- \section{\mysidestyle{}Honours and\\Awards}
- Canadian Open Neuroscience Platform Research Scholar --- \$50,000 \hfill \textbf{2019}\\
- Nano Ontario Conference Best Poster \hfill \textbf{2011-10}\\%
- McMaster Materials Science \& Engineering Graduate Conference Best Presentation Delivery \hfill \textbf{2010-09}\\%
- NSERC Postgraduate Scholarship D3 --- \$63,000 \hfill \textbf{2009--2011}\\%
- Ontario Graduate Scholarship --- Doctoral --- \$15,000 --- \textsl{Declined} \hfill \textbf{2009} \\%
- Ontario Graduate Scholarship --- Masters --- \$15,000 \hfill \textbf{2008}
-
- \section{\mysidestyle{}Teaching\\Experience}
- \textbf{Douglas University Mental Health Institute, CIC}, Montreal, QC, Canada \\%
- \textsl{Research Computing Associate --- CIC Software Seminar Series} \hfill \textbf{2014-08 -- Present}
-
- \textbf{Software Carpentry}, Online\\%
- \textsl{Volunteer Instructor} \hfill \textbf{2012-11 -- Present}
-
- \vspace{-2mm}
- \textbf{McMaster University}, Hamilton, ON, Canada \\%
- \textsl{Instructor --- MATLS 1M03, Introduction to Materials Science} \hfill \textbf{2014-06 -- 2014-08}\\
- \textsl{Instructor --- ENG PHYS 2CE4, Computational Methods for Engineering Physics} \hfill \textbf{2014-01 -- 2014-04}\\
- \textsl{Teaching Assistant --- ENG PHYS 3F04 Introduction to Solid State} \hfill \textbf{2012-09 -- 2012-12}\\
- \textsl{Teaching Assistant --- ENG PHYS 4A06 Senior Undergraduate Thesis Project} \hfill  \textbf{2008-09 -- 2012-05}\\
- \textsl{Teaching Assistant --- ENG PHYS 4U04 Advanced Computer Laboratories} \hfill \textbf{2008-09 -- 2009-05}
-
- \section{\mysidestyle{}Research\\Experience}
  \textbf{McMaster University}, Hamilton, ON, Canada\\%
- \textsl{Laboratory Manager} \hfill \textbf{2009-05 -- 2014-05}\\
- \textsl{Summer and Co-op Student Supervisor} \hfill \textbf{2009-09 -- 2014-05}
+ \textsl{Laboratory Manager; Summer and Co-op Student Supervisor} \hfill \textbf{2009-05 -- 2014-05}
 
-\section{\mysidestyle{}Journal\\Reviews}
-MIT Press \textsl{Imaging Neuroscience} \hfill \textbf{2023}\\
-Wiley \textsl{Human Brain Mapping} \hfill \textbf{2022,2023}\\
-Organization for Human Brain Mapping \textsl{Aperture Neuro} \hfill \textbf{2021}\\
-Springer Nature \textsl{Anatomy and Embryology} \hfill \textbf{2021}\\
-Springer Nature \textsl{Brain Structure \& Function} \hfill \textbf{2021}\\
-Elsevier \textsl{NeuroImage} \hfill \textbf{2021}\\
-Elsevier \textsl{Progress in Neuro-Psychopharmacology \& Biological Psychiatry} \hfill \textbf{2020}\\
-PLOS \textsl{ONE} \hfill \textbf{2019}\\
-Nature \textsl{Scientific Data} \hfill \textbf{2018}\\
-Elsevier \textsl{Applied Surface Science} \hfill \textbf{2015}\\
-SPIE \textsl{Journal of Photonics For Energy} \hfill \textbf{2014}
+ \section{\mysidestyle{}Education}
+ \textbf{McMaster University}, Hamilton, ON, Canada\\\vspace{2mm}%
+ \textsl{Doctor of Philosophy --- Engineering Physics} \hfill \textbf{2014-06}\vspace{-3mm}\\\vspace{-1mm}%
+ \begin{list2}
+  \item Thesis : An Investigation into the Role of Energy and Symmetry at Epitaxial Interfaces
+  \item Adviser : Dr.~John S. Preston
+ \end{list2}\vspace{-1.5mm}
+ \textsl{Bachelor of Engineering --- Engineering Physics} \hfill \textbf{2007-05}\vspace{-3mm}\\\vspace{-1mm}
+ \begin{list2}
+  \item Awarded with Distinction
+ \end{list2}
 
-\section{\mysidestyle{}Service}
-\textbf{Centre de la Petite Enfance Funville}, Verdun, QC, Canada\\%
-\textsl{Board Member} \hfill \textbf{2019-05 -- 2021-05}
-
-\textbf{Software Carpentry}, Online\\%
-\textsl{Maintainer and Developer shell-novice Lesson} \hfill \textbf{2014-11 -- 2022-08}
-
-\textbf{McMaster University}, Hamilton, ON, Canada\\%
-\textsl{Ex-Officio Member - Engineering Physics Graduate Advisory Committee} \hfill \textbf{2013-12 -- 2014-08}\\
-\textsl{Engineering Physics Professorial Search Committee} \hfill \textbf{2010-11 -- 2011-01}\\
-\textsl{NanoGiga 2009, 14th Canadian Semiconductor Technology Conference} \hfill \textbf{2009-08}\\
-\textsl{Graduate Student Association --- Phoenix Executive Committee} \hfill \textbf{2009-09 -- 2013-12}
-
-\textbf{Nano Ontario}, ON, Canada\\%
-\textsl{Board Member At-Large - Chair, Communications Committee} \hfill \textbf{2013-03 -- 2015-01}
+ \section{\mysidestyle{}Bibliometrics}
+ Peer-reviewed articles: \pubstat{papers} (\pubstat{first} first author, \pubstat{senior} senior author)\\
+ Preprints: \pubstat{preprints} \quad Datasets: \pubstat{datasets} \quad Patents: \pubstat{patents}\\
+ Conference presentations and posters: \pubstat{contributed} \quad Invited presentations: \pubstat{invited}\\
+ Citations: \pubstat{citations} \quad h-index: \pubstat{hindex} \quad i10-index: \pubstat{itenindex}
+ (OpenAlex, \pubstat{citedate})
 
 \section{\mysidestyle{}Research\\Software\\Development}
 \swstat{user}{mergedprs} merged pull requests on GitHub, \swstat{user}{externalprs} of them to
@@ -487,35 +480,30 @@ Lead a team of full-stack developers, scientific programmers and system administ
 ITK, FreeSurfer, fMRIPrep, SimpleITK, NIfTI C library, MINC libraries, RMINC, CIVET, LORIS, Neurodesk,
 DeepLabCut, OpenZFS, zlib-ng, conda-forge, Software Carpentry (shell-novice maintainer, 2014--2022).
 
-\section{\mysidestyle{}Bibliometrics}
-Peer-Reviewed Articles : 136 (4 first author, 3 senior author)\\
-Presentations and Posters in Conference Proceedings : 158\\
-Invited Presentations : 13\\
-Citations : 8491 (Google Scholar, 2026-11)\\
-h-index : 41\\
-i10-index : 98
+ \section{\mysidestyle{}Supervision\\and Mentoring}
+ \textbf{Douglas Neuroinformatics Platform} --- Development Team Manager \hfill \textbf{2022-01 -- Present}\\
+ Supervise a team of 8 full-stack developers, scientific programmers and system administrators.
 
- \section{\mysidestyle{}Patents}
- \begin{refsection}[patents.bib]
-  \interlinepenalty=10000 %Prevent breaking of paragraphs
+ \textbf{CoBrA Laboratory} --- Research Computing Associate \hfill \textbf{2014-08 -- Present}\\
+ Technical and methodological mentoring of laboratory trainees in image processing, pipelines and research computing:
+ 5 postdoctoral fellows, 22 PhD students (including 3 visiting), 27 MSc students and 32 BSc students
+ (currently 12 PhD, 3 MSc and 5 BSc students).
+
+\ifshortcv
+ \section{\mysidestyle{}Selected\\Publications}
+ \begin{refsection}[papers.bib]
+  \interlinepenalty=10000
   \newrefcontext[sorting=ymdnt]
-  \nocite{*}
+  \expandafter\nocite\expandafter{\selectedkeys}
   \printbibliography[heading=none]
  \end{refsection}
- \section{\mysidestyle{}Invited\\Presentations}
- \begin{refsection}[invited.bib]
-  \interlinepenalty=10000 %Prevent breaking of paragraphs
-  \newrefcontext[sorting=ymdnt]
-  \nocite{*}
-  \printbibliography[heading=none]
- \end{refsection}
- \section{\mysidestyle{}Contributed\\Publications}
- \begin{refsection}[contributed.bib]
-  \interlinepenalty=10000 %Prevent breaking of paragraphs
-  \newrefcontext[sorting=ymdnt]
-  \nocite{*}
-  \printbibliography[heading=none]
- \end{refsection}
+ First- and senior-author papers and the most-cited papers. Full list: \href{https://github.com/gdevenyi/curriculumvitae/blob/master/cv.pdf}{full CV}.
+
+ \section{\mysidestyle{}Journal\\Reviews}
+ \textsl{Imaging Neuroscience}, \textsl{NeuroImage}, \textsl{Human Brain Mapping}, \textsl{Aperture Neuro},
+ \textsl{Brain Structure \& Function}, \textsl{Frontiers in Neuroinformatics}, \textsl{Progress in Neuro-Psychopharmacology
+ \& Biological Psychiatry}, \textsl{PLOS ONE}, \textsl{Scientific Data} (2017--2026).
+\else
  \section{\mysidestyle{}Peer-Reviewed\\Publications}
  \begin{refsection}[papers.bib]
   \interlinepenalty=10000 %Prevent breaking of paragraphs
@@ -523,6 +511,91 @@ i10-index : 98
   \nocite{*}
   \printbibliography[heading=none]
  \end{refsection}
+ \section{\mysidestyle{}Preprints}
+ \begin{refsection}[preprints.bib]
+  \interlinepenalty=10000
+  \newrefcontext[sorting=ymdnt]
+  \nocite{*}
+  \printbibliography[heading=none]
+ \end{refsection}
+ \section{\mysidestyle{}Datasets}
+ \begin{refsection}[datasets.bib]
+  \interlinepenalty=10000
+  \newrefcontext[sorting=ymdnt]
+  \nocite{*}
+  \printbibliography[heading=none]
+ \end{refsection}
+ \section{\mysidestyle{}Patents}
+ \begin{refsection}[patents.bib]
+  \interlinepenalty=10000
+  \newrefcontext[sorting=ymdnt]
+  \nocite{*}
+  \printbibliography[heading=none]
+ \end{refsection}
+ \section{\mysidestyle{}Invited\\Presentations}
+ \begin{refsection}[invited.bib]
+  \interlinepenalty=10000
+  \newrefcontext[sorting=ymdnt]
+  \nocite{*}
+  \printbibliography[heading=none]
+ \end{refsection}
+ \section{\mysidestyle{}Contributed\\Publications}
+ \begin{refsection}[contributed.bib]
+  \interlinepenalty=10000
+  \newrefcontext[sorting=ymdnt]
+  \nocite{*}
+  \begingroup\compactbib
+  \printbibliography[heading=none]
+  \endgroup
+ \end{refsection}
+
+ \section{\mysidestyle{}Honours and\\Awards}
+ Canadian Open Neuroscience Platform Research Scholar --- \$50,000 \hfill \textbf{2019}\\
+ Nano Ontario Conference Best Poster \hfill \textbf{2011-10}\\%
+ McMaster Materials Science \& Engineering Graduate Conference Best Presentation Delivery \hfill \textbf{2010-09}\\%
+ NSERC Postgraduate Scholarship D3 --- \$63,000 \hfill \textbf{2009--2011}\\%
+ Ontario Graduate Scholarship --- Doctoral --- \$15,000 --- \textsl{Declined} \hfill \textbf{2009} \\%
+ Ontario Graduate Scholarship --- Masters --- \$15,000 \hfill \textbf{2008}
+
+ \section{\mysidestyle{}Teaching\\Experience}
+ \textbf{Cerebral Imaging Centre, Douglas Mental Health University Institute}, Montreal, QC, Canada \\%
+ \textsl{CIC Software Seminar Series} \hfill \textbf{2014-08 -- Present}
+
+ \textbf{Software Carpentry}, Online\\%
+ \textsl{Volunteer Instructor} \hfill \textbf{2012-11 -- Present}
+
+ \textbf{McMaster University}, Hamilton, ON, Canada \\%
+ \textsl{Instructor (MATLS 1M03, ENG PHYS 2CE4) and Teaching Assistant (ENG PHYS 3F04, 4A06, 4U04)} \hfill \textbf{2008-09 -- 2014-08}
+
+ \section{\mysidestyle{}Journal\\Reviews}
+ MIT Press \textsl{Imaging Neuroscience} \hfill \textbf{2023, 2024, 2025, 2026}\\
+ Elsevier \textsl{NeuroImage} \hfill \textbf{2021, 2022, 2023}\\
+ Wiley \textsl{Human Brain Mapping} \hfill \textbf{2022, 2023}\\
+ Organization for Human Brain Mapping \textsl{Aperture Neuro} \hfill \textbf{2021, 2022}\\
+ Springer Nature \textsl{Brain Structure \& Function} \hfill \textbf{2021}\\
+ Frontiers \textsl{Frontiers in Neuroinformatics} \hfill \textbf{2020}\\
+ Elsevier \textsl{Progress in Neuro-Psychopharmacology \& Biological Psychiatry} \hfill \textbf{2020}\\
+ PLOS \textsl{ONE} \hfill \textbf{2019}\\
+ Nature \textsl{Scientific Data} \hfill \textbf{2017, 2018}\\
+ Elsevier \textsl{Applied Surface Science} \hfill \textbf{2015}\\
+ SPIE \textsl{Journal of Photonics For Energy} \hfill \textbf{2014}
+
+ \section{\mysidestyle{}Service}
+ \textbf{Centre de la Petite Enfance Funville}, Verdun, QC, Canada\\%
+ \textsl{Board Member} \hfill \textbf{2019-05 -- 2021-05}
+
+ \textbf{Software Carpentry}, Online\\%
+ \textsl{Maintainer and Developer, shell-novice Lesson} \hfill \textbf{2014-11 -- 2022-08}
+
+ \textbf{McMaster University}, Hamilton, ON, Canada\\%
+ \textsl{Ex-Officio Member --- Engineering Physics Graduate Advisory Committee} \hfill \textbf{2013-12 -- 2014-08}\\
+ \textsl{Engineering Physics Professorial Search Committee} \hfill \textbf{2010-11 -- 2011-01}\\
+ \textsl{NanoGiga 2009, 14th Canadian Semiconductor Technology Conference} \hfill \textbf{2009-08}\\
+ \textsl{Graduate Student Association --- Phoenix Executive Committee} \hfill \textbf{2009-09 -- 2013-12}
+
+ \textbf{Nano Ontario}, ON, Canada\\%
+ \textsl{Board Member At-Large --- Chair, Communications Committee} \hfill \textbf{2013-03 -- 2015-01}
+\fi
 
 \end{resume}
 \end{document}
