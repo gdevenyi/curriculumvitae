@@ -6,7 +6,12 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+
+# Paperpile Bot can push several commits in a row; only the newest build matters.
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -49,3 +54,18 @@ jobs:
           path: |
             cv.pdf
             cv.log
+
+      # Pushes made with GITHUB_TOKEN do not start new workflow runs, so this cannot loop.
+      - name: Commit updated cv.pdf to master
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add cv.pdf
+          if git diff --cached --quiet; then
+            echo "cv.pdf did not change"
+            exit 0
+          fi
+          git commit -m "Update cv.pdf [skip ci]"
+          git pull --rebase origin master
+          git push origin HEAD:master
