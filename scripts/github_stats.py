@@ -39,6 +39,13 @@ REPOS = [
     "CoBrALab/RABIES",
     "CoBrALab/MAGeTbrain",
 ]
+# Forks with deployment branches: fork -> (upstream, upstream branch).
+# The script counts the distinct non-merge commits by USER over all fork
+# branches with "deploy" in the name. Rebuilt branches repeat the same
+# changes with new SHAs, so commits are matched by subject line.
+FORKS = {
+    "gdevenyi/FreeToken": ("FlashML-org/FreeToken", "main"),
+}
 PYPI = ["qbatch"]
 TEAM_ORG = "DouglasNeuroInformatics"
 # Organizations that count as "own" when counting upstream contributions.
@@ -130,6 +137,37 @@ def graphql(query: str) -> dict:
     return out["data"]
 
 
+def fork_stats(fork: str, upstream: str, base: str) -> dict[str, str]:
+    owner = fork.split("/")[0]
+    branches = [
+        b["name"]
+        for b in gh_all(f"repos/{fork}/branches")
+        if "deploy" in b["name"] and "/base-" not in b["name"]
+    ]
+    subjects: set[str] = set()
+    for branch in branches:
+        ref = f"{base}...{owner}:{fork.split('/')[1]}:{branch}"
+        page = 1
+        while True:
+            data, _ = gh(f"repos/{upstream}/compare/{ref}", per_page=100, page=page)
+            commits = data["commits"]
+            for c in commits:
+                if (c.get("author") or {}).get("login", "").lower() != USER:
+                    continue
+                subject = c["commit"]["message"].split("\n", 1)[0]
+                if not subject.startswith("Merge "):
+                    subjects.add(subject)
+            if len(commits) < 100:
+                break
+            page += 1
+    info, _ = gh(f"repos/{upstream}")
+    return {
+        "commits": fmt(len(subjects)),
+        "branches": fmt(len(branches)),
+        "upstreamstars": fmt(info["stargazers_count"]),
+    }
+
+
 def fmt(n: int) -> str:
     return f"{n:,}".replace(",", "{,}")
 
@@ -156,6 +194,9 @@ def collect() -> dict[str, dict[str, str]]:
             "rank": str(rank) if rank else "--",
             "releases": fmt(len(releases)),
         }
+
+    for fork, (upstream, base) in FORKS.items():
+        stats[fork] = fork_stats(fork, upstream, base)
 
     for pkg in PYPI:
         data, _ = get(f"https://pypistats.org/api/packages/{pkg}/recent")

@@ -222,6 +222,18 @@
  \textbf{\href{https://github.com/#1}{\color{black}#2}} --- #3\\
  \textsl{#4}\par\fi}
 
+% \upstream{search filter}{name}: link to the user's merged pull requests
+\newcommand{\upstream}[2]{\href{https://github.com/search?q=author:gdevenyi+is:pr+is:merged+#1&type=pullrequests}{\mbox{#2}}}
+% \swproject{url}{display name}{description}{role and statistics}
+% (for services and forks, where repository stars do not apply)
+% An empty url prints the name without a link.
+\newcommand{\swname}[2]{\textbf{\ifblank{#1}{#2}{\href{#1}{\color{black}#2}}}}
+\newcommand{\swproject}[4]{\ifshortcv
+ \swname{#1}{#2} --- #3\par
+ \else
+ \swname{#1}{#2} --- #3\\
+ \textsl{#4}\par\fi}
+
 %Print url or eprint only if no DOI
 \DeclareSourcemap{
  \maps[datatype=bibtex]{
@@ -365,8 +377,9 @@
  \section{\mysidestyle{}Profile}
  Neuroinformatics and research-computing lead with more than a decade of experience building the software,
  platforms and computing infrastructure behind brain-imaging research. I lead the Douglas Neuroinformatics
- Platform and its development team, and run the Linux/HPC environment of the Cerebral Imaging Centre at the
- Douglas Research Centre (McGill University). My open-source tools for image registration, template
+ Platform and its development team, run the Linux/HPC environment of the Cerebral Imaging Centre, and
+ operate ChatDNP, an on-premises LLM service, at the Douglas Research Centre (McGill University). My team
+ is now building LLM-assisted access to the clinical data lake of the CIUSSS de l'Ouest-de-l'Île-de-Montréal. My open-source tools for image registration, template
  construction and morphometry, and my contributions to ANTs, ITK and MINC, are used by laboratories worldwide
  and support \pubstat{papers} peer-reviewed publications. I also co-founded Clinivance, which builds secure
  electronic data capture for academic clinical research.
@@ -375,7 +388,8 @@
  Reproducible neuroimaging pipelines and research software engineering. Image registration, template
  construction and morphometry across species (mouse, rat, non-human primate, human). Quality control and
  standardization of MRI processing. Research data platforms: electronic data capture, controlled data sharing,
- FAIR and BIDS data. High-performance and secure research computing, including self-hosted AI infrastructure.
+ FAIR and BIDS data. High-performance and secure research computing, including self-hosted LLM infrastructure.
+ On-site LLM tools for hospital clinical data: data dictionaries and agentic data-lake queries.
 
  \section{\mysidestyle{}Professional\\Experience}
  \textbf{Douglas Research Centre}, Montreal, QC, Canada\\%
@@ -433,6 +447,21 @@ Lead a team of full-stack developers, scientific programmers and system administ
 \swrepo{DouglasNeuroInformatics/ansible-playbooks}{CIC infrastructure playbooks}%
  {Ansible provisioning of the Cerebral Imaging Centre Linux workstations, servers and Slurm cluster}%
  {Lead developer (\swstat{DouglasNeuroInformatics/ansible-playbooks}{commits} of \swstat{DouglasNeuroInformatics/ansible-playbooks}{totalcommits} commits); \swgh{DouglasNeuroInformatics/ansible-playbooks}}
+\swproject{https://github.com/DouglasNeuroInformatics/Douglas_User_Documentation/blob/master/docs/available_services/chatdnp.md}{ChatDNP}%
+ {on-premises AI chat and API service (Open WebUI) for the Douglas Research Centre network, so that
+  confidential and patient-related content stays inside the institution; 2 NVIDIA RTX A6000 GPUs, 500 GB RAM}%
+ {Architect and administrator}
+\swproject{https://github.com/gdevenyi/FreeToken}{FreeToken (production fork)}%
+ {fork of the FreeToken LLM inference engine that serves ChatDNP: large Mixture-of-Experts models on
+  Pascal, Ampere and Blackwell GPUs, FP8/NVFP4 quantization, 8-bit KV cache, tensor parallelism,
+  speculative decoding and an OpenAI-compatible API}%
+ {Maintainer; \swstat{gdevenyi/FreeToken}{commits} commits over \swstat{gdevenyi/FreeToken}{branches} deployment builds}
+\swproject{}{CIUSSS de l'Ouest-de-l'Île-de-Montréal Data Lake (Douglas Hospital)}%
+ {on-site LLM access to the hospital clinical data lake: an LLM-assisted data dictionary (reproducible SQL
+  metadata extraction, variable descriptions generated with ChatDNP, thematic and global dictionaries of more
+  than 6{,}000 variables), an agentic Open WebUI assistant with custom tools that query the dictionary and then the
+  data lake read-only (SQL validation, audit logs), and synthetic EHR data for development outside the hospital network}%
+ {Technical lead; 2026 -- present (in development)}
 
 \swgroup{Lead Developer and Maintainer}
 \swrepo{CoBrALab/optimized_antsMultivariateTemplateConstruction}{optimized\_antsMultivariateTemplateConstruction}%
@@ -476,8 +505,15 @@ Lead a team of full-stack developers, scientific programmers and system administ
  {Contributor \#\swstat{CoBrALab/MAGeTbrain}{rank} of \swstat{CoBrALab/MAGeTbrain}{contributors}; \swgh{CoBrALab/MAGeTbrain}}
 
 \swgroup{Selected Upstream Contributions}
-ITK, FreeSurfer, fMRIPrep, SimpleITK, NIfTI C library, MINC libraries, RMINC, CIVET, LORIS, Neurodesk,
-DeepLabCut, OpenZFS, zlib-ng, conda-forge, Software Carpentry (shell-novice maintainer, 2014--2022).
+\upstream{repo:InsightSoftwareConsortium/ITK}{ITK}, \upstream{repo:freesurfer/freesurfer}{FreeSurfer},
+\upstream{repo:nipreps/fmriprep}{fMRIPrep}, \upstream{repo:SimpleITK/SimpleITK}{SimpleITK},
+\upstream{repo:NIFTI-Imaging/nifti_clib}{NIfTI C library},
+\upstream{org:BIC-MNI+-repo:BIC-MNI/minc-toolkit-v2}{MINC libraries},
+\upstream{repo:Mouse-Imaging-Centre/RMINC}{RMINC}, \upstream{repo:aces/CIVET}{CIVET},
+\upstream{repo:aces/Loris}{LORIS}, \upstream{org:NeuroDesk}{Neurodesk},
+\upstream{repo:DeepLabCut/DeepLabCut}{DeepLabCut}, \upstream{repo:openzfs/zfs}{OpenZFS},
+\upstream{repo:zlib-ng/zlib-ng}{zlib-ng}, \upstream{org:conda-forge}{conda-forge},
+\upstream{repo:swcarpentry/shell-novice}{Software Carpentry} (shell-novice maintainer, 2014--2022).
 
  \section{\mysidestyle{}Supervision\\and Mentoring}
  \textbf{Douglas Neuroinformatics Platform} --- Development Team Manager \hfill \textbf{2022-01 -- Present}\\
