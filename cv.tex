@@ -224,10 +224,12 @@
 
 % \swproject{url}{display name}{description}{role and statistics}
 % (for services and forks, where repository stars do not apply)
+% An empty url prints the name without a link.
+\newcommand{\swname}[2]{\textbf{\ifblank{#1}{#2}{\href{#1}{\color{black}#2}}}}
 \newcommand{\swproject}[4]{\ifshortcv
- \textbf{\href{#1}{\color{black}#2}} --- #3\par
+ \swname{#1}{#2} --- #3\par
  \else
- \textbf{\href{#1}{\color{black}#2}} --- #3\\
+ \swname{#1}{#2} --- #3\\
  \textsl{#4}\par\fi}
 
 %Print url or eprint only if no DOI
@@ -374,7 +376,8 @@
  Neuroinformatics and research-computing lead with more than a decade of experience building the software,
  platforms and computing infrastructure behind brain-imaging research. I lead the Douglas Neuroinformatics
  Platform and its development team, run the Linux/HPC environment of the Cerebral Imaging Centre, and
- operate ChatDNP, an on-premises LLM service, at the Douglas Research Centre (McGill University). My open-source tools for image registration, template
+ operate ChatDNP, an on-premises LLM service, at the Douglas Research Centre (McGill University). My team
+ is now building LLM-assisted access to the clinical data lake of the CIUSSS de l'Ouest-de-l'Île-de-Montréal. My open-source tools for image registration, template
  construction and morphometry, and my contributions to ANTs, ITK and MINC, are used by laboratories worldwide
  and support \pubstat{papers} peer-reviewed publications. I also co-founded Clinivance, which builds secure
  electronic data capture for academic clinical research.
@@ -383,7 +386,8 @@
  Reproducible neuroimaging pipelines and research software engineering. Image registration, template
  construction and morphometry across species (mouse, rat, non-human primate, human). Quality control and
  standardization of MRI processing. Research data platforms: electronic data capture, controlled data sharing,
- FAIR and BIDS data. High-performance and secure research computing, including self-hosted AI infrastructure.
+ FAIR and BIDS data. High-performance and secure research computing, including self-hosted LLM infrastructure.
+ On-site LLM tools for hospital clinical data: data dictionaries and agentic data-lake queries.
 
  \section{\mysidestyle{}Professional\\Experience}
  \textbf{Douglas Research Centre}, Montreal, QC, Canada\\%
@@ -450,6 +454,12 @@ Lead a team of full-stack developers, scientific programmers and system administ
   Pascal, Ampere and Blackwell GPUs, FP8/NVFP4 quantization, 8-bit KV cache, tensor parallelism,
   speculative decoding and an OpenAI-compatible API}%
  {Maintainer; \swstat{gdevenyi/FreeToken}{commits} commits over \swstat{gdevenyi/FreeToken}{branches} deployment builds}
+\swproject{}{CIUSSS de l'Ouest-de-l'Île-de-Montréal Data Lake (Douglas Hospital)}%
+ {on-site LLM access to the hospital clinical data lake: an LLM-assisted data dictionary (reproducible SQL
+  metadata extraction, variable descriptions generated with ChatDNP, thematic and global dictionaries of more
+  than 6{,}000 variables), an agentic Open WebUI assistant with custom tools that query the dictionary and then the
+  data lake read-only (SQL validation, audit logs), and synthetic EHR data for development outside the hospital network}%
+ {Project lead; in development}
 
 \swgroup{Lead Developer and Maintainer}
 \swrepo{CoBrALab/optimized_antsMultivariateTemplateConstruction}{optimized\_antsMultivariateTemplateConstruction}%
