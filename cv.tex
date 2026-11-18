@@ -222,6 +222,8 @@
  \textbf{\href{https://github.com/#1}{\color{black}#2}} --- #3\\
  \textsl{#4}\par\fi}
 
+% \upstream{search filter}{name}: link to the user's merged pull requests
+\newcommand{\upstream}[2]{\href{https://github.com/search?q=author:gdevenyi+is:pr+is:merged+#1&type=pullrequests}{\mbox{#2}}}
 % \swproject{url}{display name}{description}{role and statistics}
 % (for services and forks, where repository stars do not apply)
 % An empty url prints the name without a link.
@@ -503,8 +505,15 @@ Lead a team of full-stack developers, scientific programmers and system administ
  {Contributor \#\swstat{CoBrALab/MAGeTbrain}{rank} of \swstat{CoBrALab/MAGeTbrain}{contributors}; \swgh{CoBrALab/MAGeTbrain}}
 
 \swgroup{Selected Upstream Contributions}
-ITK, FreeSurfer, fMRIPrep, SimpleITK, NIfTI C library, MINC libraries, RMINC, CIVET, LORIS, Neurodesk,
-DeepLabCut, OpenZFS, zlib-ng, conda-forge, Software Carpentry (shell-novice maintainer, 2014--2022).
+\upstream{repo:InsightSoftwareConsortium/ITK}{ITK}, \upstream{repo:freesurfer/freesurfer}{FreeSurfer},
+\upstream{repo:nipreps/fmriprep}{fMRIPrep}, \upstream{repo:SimpleITK/SimpleITK}{SimpleITK},
+\upstream{repo:NIFTI-Imaging/nifti_clib}{NIfTI C library},
+\upstream{org:BIC-MNI+-repo:BIC-MNI/minc-toolkit-v2}{MINC libraries},
+\upstream{repo:Mouse-Imaging-Centre/RMINC}{RMINC}, \upstream{repo:aces/CIVET}{CIVET},
+\upstream{repo:aces/Loris}{LORIS}, \upstream{org:NeuroDesk}{Neurodesk},
+\upstream{repo:DeepLabCut/DeepLabCut}{DeepLabCut}, \upstream{repo:openzfs/zfs}{OpenZFS},
+\upstream{repo:zlib-ng/zlib-ng}{zlib-ng}, \upstream{org:conda-forge}{conda-forge},
+\upstream{repo:swcarpentry/shell-novice}{Software Carpentry} (shell-novice maintainer, 2014--2022).
 
  \section{\mysidestyle{}Supervision\\and Mentoring}
  \textbf{Douglas Neuroinformatics Platform} --- Development Team Manager \hfill \textbf{2022-01 -- Present}\\
