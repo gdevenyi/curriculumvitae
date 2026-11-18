@@ -252,7 +252,7 @@
 
 %Create a new sorting scheme for biblatex based on ISO year descending
 % https://tex.stackexchange.com/questions/46868/biblatex-sorting-by-date
-\DeclareSortingScheme{ymdnt}{
+\DeclareSortingTemplate{ymdnt}{
  \sort{
   \field{presort}
  }
@@ -305,10 +305,10 @@
  pdfmenubar=true,        % show Acrobat’s menu?
  pdffitwindow=true,     % window fit to page when opened
  pdfstartview={FitH},    % fits the width of the page to the window
- pdftitle={\today{} Gabriel A. Devenyi -- Curriculum Vit\ae},    % title
+ pdftitle={Gabriel A. Devenyi - Curriculum Vitae},    % title
  pdfauthor={Gabriel A. Devenyi},     % author
- pdfsubject={\today{} Gabriel A. Devenyi -- Curriculum Vit\ae},   % subject of the document
- pdfkeywords={neuroimaging} {mri} {segmentation} {structural imaging}, % list of keywords
+ pdfsubject={Curriculum Vitae},   % subject of the document
+ pdfkeywords={neuroimaging, MRI, reproducible pipelines, research software engineering, image registration, morphometry, research data platforms, research computing}, % list of keywords
  pdfnewwindow=true,      % links in new window
  colorlinks=true,       % false: boxed links; true: colored links
  linkcolor=black,          % color of internal links

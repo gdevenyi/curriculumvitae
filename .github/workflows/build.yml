@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  # Weekly refresh of citations and GitHub statistics (Monday 06:00 UTC).
+  schedule:
+    - cron: "0 6 * * 1"
 
 permissions:
   contents: write
@@ -24,7 +27,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ~/.cache/Tectonic
-          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex', '**/*.cls', 'texmf/**') }}
+          key: ${{ runner.os }}-tectonic-${{ hashFiles('cv.tex', 'cv-short.tex', 'resume.cls', 'texmf/**') }}
           restore-keys: |
             ${{ runner.os }}-tectonic-
 
