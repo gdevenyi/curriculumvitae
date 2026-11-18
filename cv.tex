@@ -222,6 +222,14 @@
  \textbf{\href{https://github.com/#1}{\color{black}#2}} --- #3\\
  \textsl{#4}\par\fi}
 
+% \swproject{url}{display name}{description}{role and statistics}
+% (for services and forks, where repository stars do not apply)
+\newcommand{\swproject}[4]{\ifshortcv
+ \textbf{\href{#1}{\color{black}#2}} --- #3\par
+ \else
+ \textbf{\href{#1}{\color{black}#2}} --- #3\\
+ \textsl{#4}\par\fi}
+
 %Print url or eprint only if no DOI
 \DeclareSourcemap{
  \maps[datatype=bibtex]{
@@ -365,8 +373,8 @@
  \section{\mysidestyle{}Profile}
  Neuroinformatics and research-computing lead with more than a decade of experience building the software,
  platforms and computing infrastructure behind brain-imaging research. I lead the Douglas Neuroinformatics
- Platform and its development team, and run the Linux/HPC environment of the Cerebral Imaging Centre at the
- Douglas Research Centre (McGill University). My open-source tools for image registration, template
+ Platform and its development team, run the Linux/HPC environment of the Cerebral Imaging Centre, and
+ operate ChatDNP, an on-premises LLM service, at the Douglas Research Centre (McGill University). My open-source tools for image registration, template
  construction and morphometry, and my contributions to ANTs, ITK and MINC, are used by laboratories worldwide
  and support \pubstat{papers} peer-reviewed publications. I also co-founded Clinivance, which builds secure
  electronic data capture for academic clinical research.
@@ -433,6 +441,15 @@ Lead a team of full-stack developers, scientific programmers and system administ
 \swrepo{DouglasNeuroInformatics/ansible-playbooks}{CIC infrastructure playbooks}%
  {Ansible provisioning of the Cerebral Imaging Centre Linux workstations, servers and Slurm cluster}%
  {Lead developer (\swstat{DouglasNeuroInformatics/ansible-playbooks}{commits} of \swstat{DouglasNeuroInformatics/ansible-playbooks}{totalcommits} commits); \swgh{DouglasNeuroInformatics/ansible-playbooks}}
+\swproject{https://github.com/DouglasNeuroInformatics/Douglas_User_Documentation/blob/master/docs/available_services/chatdnp.md}{ChatDNP}%
+ {on-premises AI chat and API service (Open WebUI) for the Douglas Research Centre network, so that
+  confidential and patient-related content stays inside the institution; 2 NVIDIA RTX A6000 GPUs, 500 GB RAM}%
+ {Architect and administrator}
+\swproject{https://github.com/gdevenyi/FreeToken}{FreeToken (production fork)}%
+ {fork of the FreeToken LLM inference engine that serves ChatDNP: large Mixture-of-Experts models on
+  Pascal, Ampere and Blackwell GPUs, FP8/NVFP4 quantization, 8-bit KV cache, tensor parallelism,
+  speculative decoding and an OpenAI-compatible API}%
+ {Maintainer; \swstat{gdevenyi/FreeToken}{commits} commits over \swstat{gdevenyi/FreeToken}{branches} deployment builds}
 
 \swgroup{Lead Developer and Maintainer}
 \swrepo{CoBrALab/optimized_antsMultivariateTemplateConstruction}{optimized\_antsMultivariateTemplateConstruction}%
