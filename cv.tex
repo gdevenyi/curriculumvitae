@@ -210,6 +210,11 @@
 \IfFileExists{software_stats.tex}{\input{software_stats.tex}}{}
 \newcommand{\swstat}[2]{\ifcsname sw@#1@#2\endcsname\csname sw@#1@#2\endcsname\else ?\fi}
 \newcommand{\swgh}[1]{\swstat{#1}{stars}~\faStar{} \swstat{#1}{forks}~\faCodeBranch}
+\usepackage{needspace}
+% Group heading inside a section: small caps with a thin rule
+% (kept on the same page as the first entry below it)
+\newcommand{\swgroup}[1]{\par\Needspace{5\baselineskip}\vspace{2mm}%
+ \noindent\parbox{\linewidth}{{\large\scshape #1}\\[-0.9ex]\rule{\linewidth}{0.6pt}}\par\nopagebreak}
 % \swrepo{owner/repo}{display name}{description}{role and statistics}
 \newcommand{\swrepo}[4]{\ifshortcv
  \textbf{\href{https://github.com/#1}{\color{black}#2}} --- #3 (\swgh{#1})\par
@@ -429,7 +434,7 @@ Lead a team of full-stack developers, scientific programmers and system administ
  {Ansible provisioning of the Cerebral Imaging Centre Linux workstations, servers and Slurm cluster}%
  {Lead developer (\swstat{DouglasNeuroInformatics/ansible-playbooks}{commits} of \swstat{DouglasNeuroInformatics/ansible-playbooks}{totalcommits} commits); \swgh{DouglasNeuroInformatics/ansible-playbooks}}
 
-\textbf{Lead Developer and Maintainer}\par\vspace{1mm}
+\swgroup{Lead Developer and Maintainer}
 \swrepo{CoBrALab/optimized_antsMultivariateTemplateConstruction}{optimized\_antsMultivariateTemplateConstruction}%
  {multi-level unbiased template construction and deformation-based morphometry for animal and human MRI}%
  {\swstat{CoBrALab/optimized_antsMultivariateTemplateConstruction}{commits} of \swstat{CoBrALab/optimized_antsMultivariateTemplateConstruction}{totalcommits} commits; \swgh{CoBrALab/optimized_antsMultivariateTemplateConstruction}}
@@ -456,7 +461,7 @@ Lead a team of full-stack developers, scientific programmers and system administ
  {one-step deployment of a complete neuroimaging workstation on Ubuntu}%
  {\swstat{Gabriel-Devenyi-Consulting/NeuroAnsible}{commits} of \swstat{Gabriel-Devenyi-Consulting/NeuroAnsible}{totalcommits} commits; \swgh{Gabriel-Devenyi-Consulting/NeuroAnsible}}
 
-\textbf{Core Contributor}\par\vspace{1mm}
+\swgroup{Core Contributor}
 \swrepo{ANTsX/ANTs}{ANTs (Advanced Normalization Tools)}%
  {image registration and segmentation toolkit}%
  {Contributor \#\swstat{ANTsX/ANTs}{rank} of \swstat{ANTsX/ANTs}{contributors} (\swstat{ANTsX/ANTs}{commits} commits); \swgh{ANTsX/ANTs}}
@@ -470,7 +475,7 @@ Lead a team of full-stack developers, scientific programmers and system administ
  {multi-atlas segmentation with automatically generated templates}%
  {Contributor \#\swstat{CoBrALab/MAGeTbrain}{rank} of \swstat{CoBrALab/MAGeTbrain}{contributors}; \swgh{CoBrALab/MAGeTbrain}}
 
-\textbf{Selected Upstream Contributions}\\
+\swgroup{Selected Upstream Contributions}
 ITK, FreeSurfer, fMRIPrep, SimpleITK, NIfTI C library, MINC libraries, RMINC, CIVET, LORIS, Neurodesk,
 DeepLabCut, OpenZFS, zlib-ng, conda-forge, Software Carpentry (shell-novice maintainer, 2014--2022).
 
